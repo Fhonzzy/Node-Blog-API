@@ -5,15 +5,14 @@ const port = process.env.port;
 const connectDb = require("./db/connect");
 const userRouter = require("./Routes/user");
 const postRouter = require("./Routes/post");
-const postOpsRouter = require('./Routes/postOpsRoute')
+const postOpsRouter = require("./Routes/postOpsRoute");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const uploadMiddleware = multer({ dest: "uploads/" });
 
-
 app.use(express.json());
-app.use('/uploads', express.static(__dirname + '/uploads'))
+app.use("/uploads", express.static(__dirname + "/uploads"));
 
 app.use(
 	cors({
@@ -27,7 +26,11 @@ app.use("/", userRouter);
 
 app.use("/", uploadMiddleware.single("file"), postRouter);
 
-app.use('/', uploadMiddleware.single("file"), postOpsRouter)
+app.use("/", uploadMiddleware.single("file"), postOpsRouter);
+
+app.get("/", (req, res) => {
+	res.send("Welcome to Node JS");
+});
 
 const startServer = () => {
 	app.listen(port, async () => {
